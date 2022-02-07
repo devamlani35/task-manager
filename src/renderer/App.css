@@ -6,12 +6,7 @@ body {
   position: relative;
   color: white;
   height: 100vh;
-  background: linear-gradient(
-    200.96deg,
-    #fedc2a -29.09%,
-    #dd5789 51.77%,
-    #7a2c9e 129.35%
-  );
+  background: #3c3d3c;
   font-family: sans-serif;
   overflow-y: hidden;
   display: flex;
@@ -59,4 +54,49 @@ a:hover {
   justify-content: center;
   align-items: center;
   margin: 20px 0;
+}
+.flex-grid{
+  display:flex;
+  padding:5vw;
+  }
+.flex-grid .col{
+  flex:1;
+}
+.flex-grid {
+  margin: 10 10 20px 0;
+}
+.col1{
+width: 65vw;
+}
+
+.col1 .row1{
+height: 10vh;
+}
+.col1 .row2{
+height: 80vh;
+background: green;
+}
+.col2{
+width:30vw;
+}
+.col2 .row1{
+height:30vh;
+}
+.col2 .row2{
+height: 5vh;
+}
+.col2 .row3{
+height:50vh;
+background:yellow;
+}
+
+ .graph{
+height: 25vh;
+width: 25vw;
+}
+
+h1{
+  color: #04d66d;
+  font-size: 1em;
+  text-align: center;
 }
