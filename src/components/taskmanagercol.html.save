@@ -24,15 +24,19 @@
   <div class = "row">
  	<div class = "column">
  		<h2>System Processes</h2>
+		<p></p>
  	</div>
  	<div class = "column">
 		<h2>CPU Percentage</h2> 
+		<p></p>
 	</div>		
  	<div class = "column">
  		<h2>Memory Percentage</h2>
+ 		<p></p>
  	</div>
  	<div class = "column">
  		<h2>PID Percentage</h2>
+ 		<p></p>
  	</div>
   <div>
  </body>

@@ -1,5 +1,30 @@
-<!DOCTYPE html>
-<html>
- <head>
-  <meta charset = "utf-8">
-  
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+function pidList(props){
+	return <p>{props.pid}</p>;
+}
+function cpuList(props){
+	return <p>{props.cpu}</p>;
+}
+function memList(props){
+	return <p>{props.mem}</p>;
+}
+function nameList(props){
+	return <p>{props.name}</p>;
+}
+function processInfo(){	
+	const PID = { }
+	const CPU = { }
+	const MEM = { }
+	const NAME = { }
+	return (
+		<>
+			<pidList pid = {PID} />
+			<cpuList cpu = {CPU} />
+			<memList mem = {MEM} />
+			<nameList name = {NAME} />
+		</>
+	};
+}
+ReactDOM.render(<processInfo />, document.getElementById('root'));

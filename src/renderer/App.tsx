@@ -3,6 +3,7 @@ import graph from "../images/cpu_graph.jpeg";
 import './App.css';
 import React from "react";
 //import {PythonShell} from "python-shell";
+
 const cpu_list = [];
 
 const JSON_FILE = require("../initial_task_info.json");
@@ -17,17 +18,15 @@ let options = {
 //PythonShell.run("get_and_format_data.py",options);
 
 
-
-
-
-
 const Hello = () => {
   return (
   <main>
   <div className="flex-grid">
     <div className="col1">
 	  <div className="row1"></div>
-	  <div className = "row2"></div>
+	  <div className = "row2">
+				
+	  </div>
     </div>
     <div className="col2">
       <div className="row1">
