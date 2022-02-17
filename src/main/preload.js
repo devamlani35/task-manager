@@ -1,5 +1,9 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { ipcRenderer, contextBridge } = require('electron');
 
+const WINDOW_API = {
+  get_script: () => ipcRenderer.send("get_script")
+}
+contextBridge.exposeInMainWorld("api", WINDOW_API);
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
     myPing() {
@@ -21,3 +25,4 @@ contextBridge.exposeInMainWorld('electron', {
     },
   },
 });
+

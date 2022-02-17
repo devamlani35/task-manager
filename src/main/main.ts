@@ -12,8 +12,12 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import {PythonShell} from 'python-shell';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+
+
+
 
 export default class AppUpdater {
   constructor() {
@@ -30,6 +34,25 @@ ipcMain.on('ipc-example', async (event, arg) => {
   console.log(msgTemplate(arg));
   event.reply('ipc-example', msgTemplate('pong'));
 });
+
+var options = {
+pythonPath:"/usr/bin/python3",
+scriptPath:"src/format-data/"
+};
+var JSONINFO = null;
+function updateJSON(){
+PythonShell.run("get_and_format_data.py", options, (err,results)=>{
+if (err) throw err;
+JSONINFO = results
+console.log(results);
+});
+}
+
+ipcMain.on("get_script",(event, args)=>{
+updateJSON();
+})
+
+
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -127,6 +150,7 @@ app
   .then(() => {
     createWindow();
     app.on('activate', () => {
+
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
       if (mainWindow === null) createWindow();
