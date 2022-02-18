@@ -1,7 +1,9 @@
 const { ipcRenderer, contextBridge } = require('electron');
 
 const WINDOW_API = {
-  get_script: () => ipcRenderer.send("get_script")
+  //ipcRenderer.sendSync("get_script")
+  onNewJSON: (callback) => ipcRenderer.on("new_json", callback)
+  
 }
 contextBridge.exposeInMainWorld("api", WINDOW_API);
 contextBridge.exposeInMainWorld('electron', {

@@ -5,7 +5,7 @@ import time
 
 """
 Per Each:
-  GPU%, GPU Time Energy use, 
+  GPU%, GPU Time Energy use,
 """
 
 
@@ -13,7 +13,7 @@ if __name__ == "__main__":
     subprocess.call("~/app-dir/task-manager/src/format-data/get_info.sh", shell=True)
     with open("info.txt") as f:
         file_contents = f.readlines()
-    
+
     final_dict = {}
     #Gets Total Threads, Total Processes, Total CPU percentage, Memory free and memory used
     final_dict["Num_processes"] = int(re.search(r"([0-9]*) total", file_contents[1]).groups()[0])
@@ -43,7 +43,6 @@ if __name__ == "__main__":
         else:
             final_dict["Heat-Alert"] = False
     final_json = json.dumps(final_dict)
-    with open("../initial_task_info.json", "w") as f:
-        f.write(final_json)
-    print(final_dict["total_cpu_percentage"])
-    time.sleep(5)
+    # with open("../initial_task_info.json", "w") as f:
+    #    f.write(final_json)
+    print(final_json)

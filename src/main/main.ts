@@ -35,25 +35,6 @@ ipcMain.on('ipc-example', async (event, arg) => {
   event.reply('ipc-example', msgTemplate('pong'));
 });
 
-var options = {
-pythonPath:"/usr/bin/python3",
-scriptPath:"src/format-data/"
-};
-var JSONINFO = null;
-function updateJSON(){
-PythonShell.run("get_and_format_data.py", options, (err,results)=>{
-if (err) throw err;
-JSONINFO = results
-console.log(results);
-});
-}
-
-ipcMain.on("get_script",(event, args)=>{
-updateJSON();
-})
-
-
-
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
@@ -136,7 +117,33 @@ const createWindow = async () => {
 /**
  * Add event listeners...
  */
+var options = {
+  pythonPath:"/usr/bin/python3",
+  scriptPath:"src/format-data/"
+  };
+var JSONINFO;
+function updateJSON(){
+  
+  PythonShell.run("get_and_format_data.py", options, (err,results)=>{
+  if (err){
+     throw err;
+  }
+  JSONINFO = results[0]
+  const return_JSON = JSON.parse(JSON.stringify(JSONINFO))
+  console.log(return_JSON)
+  mainWindow.webContents.send("new_json", return_JSON)
+});}
+ 
+  
+setInterval(updateJSON, 5000)
 
+    
+  /*
+  ipcMain.on("get_script",(event, args)=>{
+  const ret_val = updateJSON();
+  event.returnValue = ret_val
+  })*/
+  
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed

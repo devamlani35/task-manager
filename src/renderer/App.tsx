@@ -12,7 +12,10 @@ const cpu_list = [];
 
 const Hello = () => {
 
-
+  window.api.onNewJSON((_event, value) => {
+    var json_obj = JSON.parse(value)
+    console.log(json_obj.Num_processes)
+  })
   function handleClick(){
       window.api.get_script();
       var JSON_FILE = require("../initial_task_info.json");
