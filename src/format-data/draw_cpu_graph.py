@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 import matplotlib.pyplot as plt
-import argparse
+import subprocess
 import numpy as np
-
+import sys
+import os
 def make_arr (string):
     string = string[1:]
     string = string [:-1]
@@ -16,15 +17,16 @@ def make_arr (string):
         ret_arr.append(temp_str)
         temp_str = ""
         continue
+    
     ret_arr.append(temp_str)
     return ret_arr
     
 if __name__ == "__main__":
-  arg_parser = argparse.ArgumentParser()
-  arg_parser.add_argument("--data-points", default ="[20,23,10,56]")
-  arg = arg_parser.parse_args()
-  y_axis = make_arr(arg.data_points)
-  y_axis = list(map(int, y_axis))
+  if len(sys.argv[1]) == 0:
+    y_axis = []
+  else:
+    y_axis = list(map(float,str(sys.argv[1]).split(',')))
+   
   x_axis= [i for i in range (1,len(y_axis)+1)]
   x = np.arange(len(x_axis))
   fig = plt.figure(figsize=(0.5,0.5))
@@ -42,4 +44,4 @@ if __name__ == "__main__":
   plt.yticks([i*10 for i in range (0,11)], [str(i*10) for i in range (0,11)], color = "#04d66d")
   plt.title('CPU percentage')
   plt.grid(True)
-  plt.savefig("../images/cpu_graph.jpeg")
+  plt.savefig("src/images/cpu_graph.jpeg")

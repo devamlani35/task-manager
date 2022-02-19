@@ -117,25 +117,49 @@ const createWindow = async () => {
 /**
  * Add event listeners...
  */
-var options = {
+var times_run = 0
+var info_options = {
   pythonPath:"/usr/bin/python3",
   scriptPath:"src/format-data/"
   };
 var JSONINFO;
+var cpu_list = [];
 function updateJSON(){
   
-  PythonShell.run("get_and_format_data.py", options, (err,results)=>{
+  PythonShell.run("get_and_format_data.py", info_options, (err,results)=>{
   if (err){
      throw err;
   }
   JSONINFO = results[0]
-  const return_JSON = JSON.parse(JSON.stringify(JSONINFO))
-  console.log(return_JSON)
+  var return_JSON = JSON.parse(JSONINFO)
+  cpu_list.push(return_JSON.total_cpu_percentage)
   mainWindow.webContents.send("new_json", return_JSON)
-});}
+  
+});
+let graph_options = {
+  pythonPath:"/usr/bin/python3",
+  scriptPath:"src/format-data/",
+  args:[cpu_list.toString()]
+};
+
+
+//if (times_run > 0){
+
+PythonShell.run("draw_cpu_graph.py", graph_options, (err,result)=>{
+  if (err){
+    console.log(err);
+    throw(err);
+  } 
+});
+/*
+}else{
+  console.log("Collecting Data")
+}
+times_run += 1;*/
+}
  
   
-setInterval(updateJSON, 5000)
+setInterval(updateJSON, 1000)
 
     
   /*

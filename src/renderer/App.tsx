@@ -6,16 +6,17 @@ import { onClick, script } from "react";
 import {remote} from "electron";
 import graph from '../images/cpu_graph.jpeg';
 
-const cpu_list = [];
+
 
 
 
 const Hello = () => {
-
+var json_obj = null;
   window.api.onNewJSON((_event, value) => {
-    var json_obj = JSON.parse(value)
+    json_obj = JSON.parse(JSON.stringify(value))
     console.log(json_obj.Num_processes)
   })
+  
   function handleClick(){
       window.api.get_script();
       var JSON_FILE = require("../initial_task_info.json");
