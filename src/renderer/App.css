@@ -1,8 +1,4 @@
-/*
- * @NOTE: Prepend a `~` to css file paths that are in your node_modules
- *        See https://github.com/webpack-contrib/sass-loader#imports
- */
-body {
+main {
   position: relative;
   color: white;
   height: 100vh;
@@ -14,86 +10,70 @@ body {
   align-items: center;
 }
 
-button {
-  background-color: white;
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: none;
-  appearance: none;
-  font-size: 1.3rem;
-  box-shadow: 0px 8px 28px -6px rgba(24, 39, 75, 0.12),
-    0px 18px 88px -4px rgba(24, 39, 75, 0.14);
-  transition: all ease-in 0.1s;
-  cursor: pointer;
-  opacity: 0.9;
-}
-
-button:hover {
-  transform: scale(1.05);
-  opacity: 1;
-}
-
-li {
-  list-style: none;
-}
-
-a {
-  text-decoration: none;
-  height: fit-content;
-  width: fit-content;
-  margin: 10px;
-}
-
-a:hover {
-  opacity: 1;
-  text-decoration: none;
-}
-
 .Hello {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 20px 0;
 }
-.flex-grid{
-  display:flex;
-  padding:5vw;
-  }
-.flex-grid .col{
-  flex:1;
-}
+
 .flex-grid {
-  margin: 10 10 20px 0;
+  display: flex;
+  padding: 5vw;
 }
-.col1{
-width: 65vw;
+
+.flex-grid .col{
+  flex: 1;
+}
+
+.flex-grid {
+  margin: 0 10 20 10;
+}
+.col1 {
+  width: 65vw;
 }
 
 .col1 .row1{
-height: 10vh;
+  height: 10vh;
 }
-.col1 .row2{
-height: 80vh;
-background: green;
+
+.col1 .row2 {
+  height: 80vh;
+  overflow: scroll;
 }
 .col2{
-width:30vw;
-}
-.col2 .row1{
-height:30vh;
-}
-.col2 .row2{
-height: 5vh;
-}
-.col2 .row3{
-height:50vh;
-background:yellow;
+  width: 30vw;
 }
 
+.col2 .row1 {
+  height: 30vh;
+}
+.col2 .row2 {
+  height: 5vh;
+}
 
+.col2 .row3 {
+  height:50vh;
+  background:yellow;
+}
 
-h1{
+.graph {
+  height: 25vh;
+  width: 25vw;
+}
+
+h1 {
   color: #04d66d;
   font-size: 1em;
   text-align: center;
+}
+
+table {
+  padding: 15px;
+  text-align: center;
+  border-color: white;
+}
+
+th, td {
+  padding: 0px 10px;
 }
