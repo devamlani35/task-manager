@@ -14,31 +14,22 @@ const Hello = () => {
 var json_obj = null;
   window.api.onNewJSON((_event, value) => {
     json_obj = JSON.parse(JSON.stringify(value))
-    console.log(json_obj.Num_processes)
+    console.log(json_obj.Individual_application_info[0].pid)
   })
-  
-  function handleClick(){
-      window.api.get_script();
-      var JSON_FILE = require("../initial_task_info.json");
-	  var json_info = JSON.parse(JSON.stringify(JSON_FILE));
-      console.log(json_info.Num_processes)
-  }
+ 
   return (
   <main>
   <div className="flex-grid">
     <div className="col1">
 	  <div className="row1">
-      <button id="hiclick" onClick = {handleClick}>Hi</button>
+     
       </div>
 	  <div className = "row2">
 
 	  </div>
     </div>
     <div className="col2">
-      <div className="row1">
-        <h1>CPU Graph</h1>
-	    <img className="graph" src={graph}></img>
-      </div>
+	    <img className="row1" src={graph}></img>
       <div className= "spacer"></div>
       <div className="row2"></div>
         <div className="row3">

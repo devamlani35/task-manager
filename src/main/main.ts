@@ -114,10 +114,6 @@ const createWindow = async () => {
   new AppUpdater();
 };
 
-/**
- * Add event listeners...
- */
-var times_run = 0
 var info_options = {
   pythonPath:"/usr/bin/python3",
   scriptPath:"src/format-data/"
@@ -143,7 +139,7 @@ let graph_options = {
 };
 
 
-//if (times_run > 0){
+
 
 PythonShell.run("draw_cpu_graph.py", graph_options, (err,result)=>{
   if (err){
@@ -151,15 +147,11 @@ PythonShell.run("draw_cpu_graph.py", graph_options, (err,result)=>{
     throw(err);
   } 
 });
-/*
-}else{
-  console.log("Collecting Data")
-}
-times_run += 1;*/
+
 }
  
   
-setInterval(updateJSON, 1000)
+setInterval(updateJSON, 3000)
 
     
   /*

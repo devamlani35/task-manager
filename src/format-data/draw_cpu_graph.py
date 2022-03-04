@@ -29,7 +29,7 @@ if __name__ == "__main__":
    
   x_axis= [i for i in range (1,len(y_axis)+1)]
   x = np.arange(len(x_axis))
-  fig = plt.figure(figsize=(0.5,0.5))
+  fig = plt.figure(figsize=(2.4,3))
   fig.patch.set_facecolor("#3c3d3c")
   plt.rcParams['axes.facecolor'] = "#3c3d3c"
   plt.rcParams["text.color"] = "04d66d"
@@ -44,4 +44,5 @@ if __name__ == "__main__":
   plt.yticks([i*10 for i in range (0,11)], [str(i*10) for i in range (0,11)], color = "#04d66d")
   plt.title('CPU percentage')
   plt.grid(True)
-  plt.savefig("src/images/cpu_graph.jpeg")
+  plt.savefig("src/images/cpu_graph.jpeg", dpi = 500)
+  
