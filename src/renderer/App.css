@@ -3,18 +3,12 @@ main {
   color: white;
   height: 100vh;
   background: #3c3d3c;
-  font-family: sans-serif;
+  overflow-x: hidden;
   overflow-y: hidden;
+  font-family: sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.Hello {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 0;
 }
 
 .flex-grid {
@@ -23,7 +17,7 @@ main {
 }
 
 .flex-grid .col{
-  flex: 1;
+  display: flex;
 }
 
 .flex-grid {
@@ -39,7 +33,7 @@ main {
 
 .col1 .row2 {
   height: 80vh;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 .col2{
   width: 30vw;
@@ -53,8 +47,11 @@ main {
 }
 
 .col2 .row3 {
-  height:50vh;
-  background:yellow;
+  height: 35%;
+  background: #b5b5b5;
+  border-radius: 25px;
+  padding: 40px 50px;
+  overflow-y: scroll;
 }
 
 .graph {
@@ -70,8 +67,15 @@ h1 {
 
 table {
   padding: 15px;
-  text-align: center;
   border-color: white;
+  border-weight: 3px;
+  table-layout: fixed;
+  width: 100%;
+}
+
+tr, td, tbody, tbody div {
+  text-align: center;
+  justify-content: space-around;
 }
 
 th, td {
