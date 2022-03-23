@@ -66,7 +66,6 @@ if __name__ == "__main__":
         pid = int(vals[0])
         cpu = float(vals[8])
         pid_cpu[pid] = cpu
-    print(pid_cpu)
     final_dict = {}
     final_dict["total_cpu_percentage"] = float(re.search(r"([0-9\.]*) us", file_contents[2]).groups()[0])
     final_dict["user_cpu_time"] = psutil.cpu_times()[0]
@@ -85,10 +84,12 @@ if __name__ == "__main__":
         if temp_process.should_keep():
             additional_process_info.append(temp_process.to_dict())
 
-    final_dict["individual_application_info"] = sort_by_cpu(additional_process_info)
-
+    final_dict["individual_application_info"] = sorted(additional_process_info, key=(lamda x : x["memory_percent"]))
     final_json = json.dumps(final_dict)
 
     print(final_json)
 
+    with open("../initial_task_info.json", "w") as f:
+        f.write(final_json)
+    
 
