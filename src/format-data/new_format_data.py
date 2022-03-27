@@ -53,19 +53,38 @@ class processes(Process,):
     def __str__(self):
         return self.cpu_usage
 
+def write_to_file(data):
+    with open("check.txt", "w") as f:
+        f.write(str(data))
+
 if __name__ == "__main__":
     current_path = os.getcwd()
-    full_path = os.path.join(current_path, 'get_info.sh')
-    subprocess.call(full_path, shell=True)
+    full_path = os.path.join(current_path, 'src/format-data/get_info.sh')
+    subprocess.run(full_path, shell=True)
+    sleep(0.1)
     with open("info.txt") as f:
         file_contents = f.readlines()
+    blank_counter = 0
+    split_ind = 0
+    for i in range(0, len(file_contents)):
+      if file_contents[i] == "\n":
+        blank_counter += 1
+      if blank_counter == 2:
+        split_ind = i
+        break
+    file_contents = file_contents[split_ind+1:]
     pid_cpu = {}
+    counter = 0
     for line in file_contents[7:]:
         vals = line.strip().split(" ")
         vals = [val for val in vals if (val!= " " and len(val) > 0)]
+        write_to_file(counter)
+        counter += 1
         pid = int(vals[0])
         cpu = float(vals[8])
         pid_cpu[pid] = cpu
+
+
     final_dict = {}
     final_dict["total_cpu_percentage"] = float(re.search(r"([0-9\.]*) us", file_contents[2]).groups()[0])
     final_dict["user_cpu_time"] = psutil.cpu_times()[0]
@@ -80,11 +99,14 @@ if __name__ == "__main__":
         final_dict["temperature"] = None
     additional_process_info = []
     for pid in psutil.pids():
-        temp_process = processes(int(pid), pid_cpu[pid])
-        if temp_process.should_keep():
-            additional_process_info.append(temp_process.to_dict())
+        try:
+            temp_process = processes(int(pid), pid_cpu[pid])
+            if temp_process.should_keep():
+                additional_process_info.append(temp_process.to_dict())
+        except:
+            continue
 
-    final_dict["individual_application_info"] = sorted(additional_process_info, key=(lamda x : x["memory_percent"]))
+    final_dict["individual_application_info"] = sorted(additional_process_info, key=(lambda x : x["cpu_percent"]), reverse=True)
     final_json = json.dumps(final_dict)
 
     print(final_json)

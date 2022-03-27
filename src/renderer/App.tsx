@@ -1,7 +1,6 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import React, {useState} from 'react';
-import { onClick, script } from "react";
+import React, {MouseEventHandler, useState} from 'react';
 // import list_component from "../components/taskmanagercol.html";
 import {remote} from "electron";
 import graph from '../images/cpu_graph.jpeg';
@@ -10,7 +9,7 @@ import Data from '../initial_task_info.json';
 var json_obj:any = null;
   window.api.onNewJSON((_event:any, value:any) => {
     json_obj = JSON.parse(JSON.stringify(value))
-    console.log(json_obj.Individual_application_info[0].pid)
+    console.log(json_obj.individual_application_info[0])
   })
   if (json_obj == null){
   json_obj = Data;
@@ -22,21 +21,17 @@ let processID = "3";
 type ProcessProps = {
   pid: string
 }
-
-const showText = (
-  event: React.MouseEvent<HTMLTableRowElement>
-) => {
-  const tr: HTMLTableCellElement = event.currentTarget;
-};
-
-const hideText = (
-  event: React.MouseEvent<HTMLTableRowElement>
-) => {
-  const tr: HTMLTableRowElement = event.currentTarget;
-};
+/*
+function showText(e:MouseEventHandler<HTMLTableRowElement>) {
+  processID = e.target.cells[0].innerText;
+}
+*/
+function hideText() {
+  processID = "";
+}
 
 export const Process = ({ pid }: ProcessProps) => <aside>
-  {json_obj.Individual_application_info.map((p) => {
+  {json_obj.individual_application_info.map((p) => {
     if (p.pid === pid) {
       return (
         <div>
@@ -77,9 +72,9 @@ const Hello = () => {
               </thead>
 
               <tbody>
-                {json_obj.Individual_application_info.map((process) => {
+                {json_obj.individual_application_info.map((process) => {
                   return (
-                    <tr onMouseOver={showText} onMouseOut={hideText}>
+                    <tr  onMouseOut={hideText}>
                       <td>{process.pid}</td>
                       <td>{process.command}</td>
                       <td>{process.cpu_percent}</td>

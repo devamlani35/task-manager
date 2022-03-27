@@ -15,8 +15,7 @@ import log from 'electron-log';
 import {PythonShell} from 'python-shell';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-
-
+var cmd = require('node-cmd')
 
 
 export default class AppUpdater {
@@ -120,8 +119,9 @@ var info_options = {
   };
 var JSONINFO;
 var cpu_list = [];
-function updateJSON(){
+function updateScreen(){
   
+  /*
   PythonShell.run("get_and_format_data.py", info_options, (err,results)=>{
   if (err){
      throw err;
@@ -132,6 +132,20 @@ function updateJSON(){
   mainWindow.webContents.send("new_json", return_JSON)
   
 });
+*/
+  cmd.run(
+    'sudo python3 src/format-data/new_format_data.py',
+    function(err, results){
+      if (err) throw err;
+      JSONINFO = results
+
+      var return_JSON = JSON.parse(JSONINFO)
+      console.log(return_JSON.individual_application_info[1])
+      cpu_list.push(return_JSON.total_cpu_percentage)
+      mainWindow.webContents.send("new_json", return_JSON)
+    }
+  )
+
 let graph_options = {
   pythonPath:"/usr/bin/python3",
   scriptPath:"src/format-data/",
@@ -150,8 +164,8 @@ PythonShell.run("draw_cpu_graph.py", graph_options, (err,result)=>{
 
 }
  
-  
-setInterval(updateJSON, 3000)
+updateScreen()
+setInterval(updateScreen, 3000)
 
     
   /*
