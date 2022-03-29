@@ -9,7 +9,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import {PythonShell} from 'python-shell';
@@ -120,19 +120,7 @@ var info_options = {
 var JSONINFO;
 var cpu_list = [];
 function updateScreen(){
-  
-  /*
-  PythonShell.run("get_and_format_data.py", info_options, (err,results)=>{
-  if (err){
-     throw err;
-  }
-  JSONINFO = results[0]
-  var return_JSON = JSON.parse(JSONINFO)
-  cpu_list.push(return_JSON.total_cpu_percentage)
-  mainWindow.webContents.send("new_json", return_JSON)
-  
-});
-*/
+
   cmd.run(
     'sudo python3 src/format-data/new_format_data.py',
     function(err, results){
@@ -140,7 +128,6 @@ function updateScreen(){
       JSONINFO = results
 
       var return_JSON = JSON.parse(JSONINFO)
-      console.log(return_JSON.individual_application_info[1])
       cpu_list.push(return_JSON.total_cpu_percentage)
       mainWindow.webContents.send("new_json", return_JSON)
     }
@@ -159,21 +146,41 @@ PythonShell.run("draw_cpu_graph.py", graph_options, (err,result)=>{
   if (err){
     console.log(err);
     throw(err);
-  } 
+  }
 });
 
 }
- 
+
 updateScreen()
 setInterval(updateScreen, 3000)
-
-    
-  /*
-  ipcMain.on("get_script",(event, args)=>{
-  const ret_val = updateJSON();
-  event.returnValue = ret_val
-  })*/
+async function handleTerminateProcess(pid){
   
+  var send_back = kill_process(pid)
+  console.log(send_back)
+  return send_back
+}
+//TODO Have to fix the sending of the terminate code to the front end
+var terminate_code = -1
+function kill_process(pid){
+  let terminate_options = {
+    pythonPath:"/usr/bin/python3",
+    scriptPath:"src/format-data/",
+    args:[pid.toString()]
+
+  }
+  var ret_val;
+  PythonShell.run("kill_process.py", terminate_options, (err, result)=> {
+    if (err){
+      throw(err);
+    } 
+    
+    terminate_code = ( Number(result[0]))
+  })
+  console.log(terminate_code)
+  return terminate_code
+  
+}
+
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
@@ -185,6 +192,9 @@ app.on('window-all-closed', () => {
 app
   .whenReady()
   .then(() => {
+    ipcMain.handle('terminateProcess', (err, results)=> {
+      handleTerminateProcess(results)
+    })
     createWindow();
     app.on('activate', () => {
 

@@ -25,7 +25,7 @@ def sort_by_cpu(processes_list):
 
     return ret_arr
 def byte_to_gb(val):
-    return round(float(val/(10**8)),2)
+    return round(float(val/(10**9)),2)
 
 class processes(Process,):
     def __init__(self, pid, cpu_percent):
@@ -45,8 +45,8 @@ class processes(Process,):
         ret_dict["command"] = self.name()
         ret_dict["time"] = self.cpu_times()[0]
         ret_dict["usr"] = self.username()
-        ret_dict["memory_percent"] = self.memory_percent()
-        ret_dict["RAM_usage"] = self.memory_info()[0]
+        ret_dict["memory_percent"] = round(self.memory_percent(),2)
+        ret_dict["RAM_usage"] = byte_to_gb(self.memory_info()[0])
         ret_dict["threads"] = self.num_threads()
         return ret_dict
 
@@ -62,6 +62,7 @@ if __name__ == "__main__":
     full_path = os.path.join(current_path, 'src/format-data/get_info.sh')
     subprocess.run(full_path, shell=True)
     sleep(0.1)
+    num_cores = psutil.cpu_count()
     with open("info.txt") as f:
         file_contents = f.readlines()
     blank_counter = 0
@@ -81,7 +82,7 @@ if __name__ == "__main__":
         write_to_file(counter)
         counter += 1
         pid = int(vals[0])
-        cpu = float(vals[8])
+        cpu = round(float(vals[8]) / num_cores, 2)
         pid_cpu[pid] = cpu
 
 
@@ -89,7 +90,7 @@ if __name__ == "__main__":
     final_dict["total_cpu_percentage"] = float(re.search(r"([0-9\.]*) us", file_contents[2]).groups()[0])
     final_dict["user_cpu_time"] = psutil.cpu_times()[0]
     final_dict["system_cpu_time"] = psutil.cpu_times()[2]
-    
+    final_dict["total_processes"] = len(psutil.pids())
     final_dict["memory_used"] = byte_to_gb(psutil.virtual_memory()[3])
     final_dict["memory_available"] = byte_to_gb(psutil.virtual_memory()[1])
     final_dict["memory_percent"] = byte_to_gb(psutil.virtual_memory()[2])
@@ -111,7 +112,7 @@ if __name__ == "__main__":
 
     print(final_json)
 
-    with open("../initial_task_info.json", "w") as f:
+    with open("src/initial_task_info.json", "w") as f:
         f.write(final_json)
     
 
