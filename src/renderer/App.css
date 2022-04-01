@@ -67,8 +67,7 @@ h1 {
 
 table {
   padding: 15px;
-  border-color: white;
-  border-weight: 3px;
+  border: 1px solid white;
   table-layout: fixed;
   width: 100%;
 }
@@ -76,6 +75,11 @@ table {
 tr, td, tbody, tbody div {
   text-align: center;
   justify-content: space-around;
+}
+
+tr {
+  border: 1px solid white;
+  padding: 5px 0px;
 }
 
 th, td {

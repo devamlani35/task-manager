@@ -14,10 +14,10 @@ console.log(json_obj.individual_application_info[0])
 if (json_obj == null){
   json_obj = Data;
 }
-let processID = "3";
+let processID = 1248;
 
 type ProcessProps = {
-  pid: string
+  pid: number
 }
 /*
 function showText(e:MouseEventHandler<HTMLTableRowElement>) {
@@ -35,8 +35,8 @@ function hideText() {
 
 export const Process = ({ pid }: ProcessProps) => <aside>
   {json_obj.individual_application_info.map((p) => {
-    //if (p.pid === pid) {
-      //return (
+    if (p.pid === pid) {
+      return (
         <div>
           <p>Process ID: {p.pid}</p>
           <p>User: {p.usr}</p>
@@ -47,18 +47,22 @@ export const Process = ({ pid }: ProcessProps) => <aside>
           <p>RAM Usage: {p.RAM_usage}</p>
           <p>Threads: {p.threads}</p>
         </div>
-      //)
-    //}
+      )
+    }
   })}
 </aside>
 async function handleTerminateClick(){
     var kill_pid = json_obj.individual_application_info[0].pid
     const terminate_bool = await window.api.terminateProcess(kill_pid)
     console.log(terminate_bool)
+    if (terminate_bool == 0){
+      alert("ERROR")
+      
+    }
   }
 const Hello = () => {
 
-  const [pid, setValue] = useState(0);
+  const [pid, setValue] = useState(-1);
   return (
   <main>
   <div className="flex-grid">
@@ -81,7 +85,7 @@ const Hello = () => {
               <tbody>
                 {json_obj.individual_application_info.map((p) => {
                   return (
-                    <tr>
+                    <tr className={}>
                       <td>{p.pid}</td>
                       <td>{p.command}</td>
                       <td>{p.cpu_percent}</td>

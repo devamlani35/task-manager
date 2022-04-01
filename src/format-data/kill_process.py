@@ -3,16 +3,21 @@ from psutil import Process
 import os
 if __name__ == "__main__":
   pid = int(sys.argv[1])
-  if pid == os.getpid():
+  try:
+    p = Process(pid)
+  except psutil.NoSuchProcess:
     print(0)
-  elif Process(pid).username() != os.getlogin():
+  except FileNotFoundError:
     print(0)
   else:
-    p = Process(pid)
-    kill_arr = []
-    kill_arr+= p.children(recursive=True)
-    kill_arr.append(p)
-    for process in kill_arr:
-      process.terminate()
-    print(1)
-  
+    if pid == os.getpid():
+      print(0)
+    elif p.username() != os.getlogin():
+      print(0)
+    else:
+        kill_arr = []
+        kill_arr+= p.children(recursive=True)
+        kill_arr.append(p)
+        for process in kill_arr:
+          process.terminate()
+        print(1)

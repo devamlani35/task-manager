@@ -156,7 +156,6 @@ setInterval(updateScreen, 3000)
 async function handleTerminateProcess(pid){
   
   var send_back = kill_process(pid)
-  console.log(send_back)
   return send_back
 }
 //TODO Have to fix the sending of the terminate code to the front end
@@ -168,10 +167,9 @@ function kill_process(pid){
     args:[pid.toString()]
 
   }
-  var ret_val;
   PythonShell.run("kill_process.py", terminate_options, (err, result)=> {
     if (err){
-      throw(err);
+      console.log(err);
     } 
     
     terminate_code = ( Number(result[0]))
