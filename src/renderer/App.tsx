@@ -5,16 +5,19 @@ import graph from '../images/cpu_graph.jpeg';
 import Data from '../initial_task_info.json';
 
 var json_obj = Data;
-
-window.api.onNewJSON((_event:any, value:any) => {
-  json_obj = JSON.parse(JSON.stringify(value))
-})
+let processID;
+if (isNaN(processID)) {
+  processID = 242;
+  for (let i = 0; i < 15; i++) {
+    console.log('WAGA WAGA');
+    console.log('WOGA WOGA');
+  }
+}
 
 console.log(json_obj.individual_application_info[0])
 if (json_obj == null){
   json_obj = Data;
 }
-let processID = 1248;
 
 type ProcessProps = {
   pid: number
@@ -23,15 +26,16 @@ type ProcessProps = {
 function showText(e:MouseEventHandler<HTMLTableRowElement>) {
   processID = e.target.cells[0].innerText;
 }
-
+*/
 
 function showText() {
-  processID = String(Number(processID) + 1);
+  processID++;
+  console.log(processID);
 }
 
 function hideText() {
-  processID = "";
-}*/
+  processID--;
+}
 
 export const Process = ({ pid }: ProcessProps) => <aside>
   {json_obj.individual_application_info.map((p) => {
@@ -69,14 +73,15 @@ const Hello = () => {
     <div className="col1">
 	  <div className="row1">
             <p>Processes running: {json_obj.total_processes}</p>
+            <p>Process ID: {processID}</p>
             <button onClick={handleTerminateClick}>Click to kill Process</button>
           </div>
           <div className="row2">
             <table>
               <thead>
                 <tr>
-                  <th>Process ID</th>
                   <th>Command</th>
+                  <th>PID</th>
                   <th>CPU Percent</th>
                   <th>Memory Percent</th>
                 </tr>
@@ -85,9 +90,9 @@ const Hello = () => {
               <tbody>
                 {json_obj.individual_application_info.map((p) => {
                   return (
-                    <tr className={}>
-                      <td>{p.pid}</td>
+                    <tr onClick={showText}>
                       <td>{p.command}</td>
+                      <td>{p.pid}</td>
                       <td>{p.cpu_percent}</td>
                       <td>{p.memory_percent}</td>
                     </tr>
