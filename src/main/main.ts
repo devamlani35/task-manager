@@ -113,6 +113,7 @@ const createWindow = async () => {
   new AppUpdater();
 };
 
+
 var info_options = {
   pythonPath:"/usr/bin/python3",
   scriptPath:"src/format-data/"
@@ -129,7 +130,7 @@ function updateScreen(){
 
       var return_JSON = JSON.parse(JSONINFO)
       cpu_list.push(return_JSON.total_cpu_percentage)
-      mainWindow.webContents.send("new_json", return_JSON)
+      
     }
   )
 
@@ -137,6 +138,7 @@ let graph_options = {
   pythonPath:"/usr/bin/python3",
   scriptPath:"src/format-data/",
   args:[cpu_list.toString()]
+
 };
 
 
@@ -149,10 +151,13 @@ PythonShell.run("draw_cpu_graph.py", graph_options, (err,result)=>{
   }
 });
 
+if (cpu_list.length > 20){
+  cpu_list.shift()
+}
 }
 
 updateScreen()
-setInterval(updateScreen, 3000)
+setInterval(updateScreen, 5000)
 async function handleTerminateProcess(pid){
   
   var send_back = kill_process(pid)

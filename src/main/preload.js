@@ -2,7 +2,7 @@ const { ipcRenderer, contextBridge } = require('electron');
 
 const WINDOW_API = {
   
-  onNewJSON: (callback) => ipcRenderer.on("new_json", callback),
+  
   terminateProcess: (pid) => {
     ipcRenderer.invoke('terminateProcess', pid)}
 }

@@ -9,6 +9,13 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  border: none;
+}
+
+::-webkit-scrollbar {
+  background-color: #666;
+  width: 10px;
+  border-radius: 5px;
 }
 
 .flex-grid {
@@ -67,21 +74,36 @@ h1 {
 
 table {
   padding: 15px;
-  border: 1px solid white;
   table-layout: fixed;
   width: 100%;
+  border: none;
 }
 
-tr, td, tbody, tbody div {
+td {
   text-align: center;
   justify-content: space-around;
 }
 
+tbody {
+  background-color: #555;
+  border: none;
+}
+
 tr {
-  border: 1px solid white;
   padding: 5px 0px;
 }
 
+tr:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+tr:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
 th, td {
-  padding: 0px 10px;
+  padding: 5px 10px;
+  word-wrap: break-word;
 }

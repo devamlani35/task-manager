@@ -3,16 +3,17 @@ import './App.css';
 import React, {MouseEventHandler, useState} from 'react';
 import graph from '../images/cpu_graph.jpeg';
 import Data from '../initial_task_info.json';
+import { systemPreferences } from 'electron';
 
 var json_obj = Data;
-let processID;
-if (isNaN(processID)) {
+let processID = 1;
+/*if (isNaN(processID)) {
   processID = 242;
   for (let i = 0; i < 15; i++) {
     console.log('WAGA WAGA');
     console.log('WOGA WOGA');
   }
-}
+}*/
 
 console.log(json_obj.individual_application_info[0])
 if (json_obj == null){
@@ -66,7 +67,7 @@ async function handleTerminateClick(){
   }
 const Hello = () => {
 
-  const [pid, setValue] = useState(-1);
+  const [pid, setValue] = useState(0);
   return (
   <main>
   <div className="flex-grid">
@@ -90,7 +91,7 @@ const Hello = () => {
               <tbody>
                 {json_obj.individual_application_info.map((p) => {
                   return (
-                    <tr onClick={showText}>
+                    <tr onMouseEnter={() => console.log(pid)}>
                       <td>{p.command}</td>
                       <td>{p.pid}</td>
                       <td>{p.cpu_percent}</td>
